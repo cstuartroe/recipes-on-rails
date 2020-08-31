@@ -1,13 +1,14 @@
 class Ingredient < ApplicationRecord
   has_many :ingredient_quantities
-  validates :name
+  validates :name, presence: true
+  validates :unit, presence: true
 
-  def to_string(plural=true)
+  def to_s(plural = true)
     s = (plural ? 's' : '')
-    if @unit
-      @unit + s + ' of ' + @name
+    if unit != ''
+      unit + s + ' of ' + name
     else
-      @name + s
+      name + s
     end
   end
 end

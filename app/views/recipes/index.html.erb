@@ -3,14 +3,14 @@
 <table>
   <tr>
     <th>Title</th>
-    <th>Text</th>
+    <th></th>
+    <th></th>
     <th></th>
   </tr>
 
   <% @recipes.each do |recipe| %>
     <tr>
       <td><%= recipe.title %></td>
-      <td><%= recipe.text %></td>
       <td><%= link_to 'Show', recipe_path(recipe) %></td>
       <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
       <td><%= link_to 'Destroy', recipe_path(recipe),

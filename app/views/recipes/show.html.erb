@@ -3,6 +3,12 @@
   <%= @recipe.title %>
 </p>
 
+<% @recipe.ingredient_quantities.each do |iq| %>
+  <p>
+    <%= iq.to_s %>
+  </p>
+<% end %>
+
 <p>
   <strong>Text:</strong>
   <%= @recipe.text %>

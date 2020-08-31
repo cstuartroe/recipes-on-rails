@@ -24,6 +24,14 @@
     <%= form.text_area :text %>
   </p>
 
+  <% Ingredient.all.each do |ingredient| %>
+    <p>
+      <%= form.text_field ("ing_" + ingredient.id.to_s),
+          value: @recipe.quantities_by_ingredient_id.fetch(ingredient.id, 0) %>
+      <%= ingredient.to_s %>
+    </p>
+  <% end %>
+
   <p>
     <%= form.submit %>
   </p>
