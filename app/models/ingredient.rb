@@ -1,7 +1,6 @@
 class Ingredient < ApplicationRecord
   has_many :ingredient_quantities
   validates :name, presence: true
-  validates :unit, presence: true
 
   def to_s(plural = true)
     s = (plural ? 's' : '')

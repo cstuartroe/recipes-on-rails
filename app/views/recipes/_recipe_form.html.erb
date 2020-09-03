@@ -19,18 +19,18 @@
     <%= form.text_field :title %>
   </p>
 
-  <p>
-    <%= form.label :text %><br>
-    <%= form.text_area :text %>
-  </p>
-
   <% Ingredient.all.each do |ingredient| %>
     <p>
-      <%= form.text_field ("ing_" + ingredient.id.to_s),
+      <%= form.text_field ("ing_" + ingredient.id.to_s), type: 'number',
           value: @recipe.quantities_by_ingredient_id.fetch(ingredient.id, 0) %>
       <%= ingredient.to_s %>
     </p>
   <% end %>
+
+  <p>
+    <%= form.label :text %><br>
+    <%= form.text_area :text %>
+  </p>
 
   <p>
     <%= form.submit %>

@@ -18,30 +18,34 @@ class RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(recipe_params)
 
-    render 'new' unless @recipe.save
+    if @recipe.save
+      ingredient_quantities.each do |ingredient, quantity|
+        IngredientQuantity.create!(ingredient: ingredient, quantity: quantity, recipe: @recipe)
+      end
 
-    ingredient_quantities.each do |ingredient, quantity|
-      IngredientQuantity.new(ingredient: ingredient, quantity: quantity, recipe: @recipe).save
+      redirect_to @recipe
+    else
+      render 'new'
     end
-
-    redirect_to @recipe
   end
 
   def update
     @recipe = Recipe.find(params.require(:id))
 
-    render 'edit' unless @recipe.update(recipe_params)
-
-    ingredient_quantities.each do |ingredient, quantity|
-      iqs = IngredientQuantity.where(ingredient: ingredient, recipe: @recipe)
-      if iqs.any?
-        iqs[0].update(quantity: quantity)
-      else
-        IngredientQuantity.new(ingredient: ingredient, quantity: quantity, recipe: @recipe).save
+    if @recipe.update(recipe_params)
+      ingredient_quantities.each do |ingredient, quantity|
+        iq = IngredientQuantity.find_by(ingredient: ingredient, recipe: @recipe)
+        if iq
+          iq.update(quantity: quantity)
+        else
+          IngredientQuantity.create!(ingredient: ingredient, quantity: quantity, recipe: @recipe)
+        end
       end
-    end
 
-    redirect_to @recipe
+      redirect_to @recipe
+    else
+      render 'edit'
+    end
   end
 
   def destroy
